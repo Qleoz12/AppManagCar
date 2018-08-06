@@ -1,8 +1,14 @@
 package com.quileiasas.appmanagcar.Controller;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
+import android.widget.EditText;
 
+import com.quileiasas.appmanagcar.DB.vehiculoDAO;
+import com.quileiasas.appmanagcar.Model.vehiculo;
 import com.quileiasas.appmanagcar.Views.ListPersonas;
 import com.quileiasas.appmanagcar.Views.ListVehiculos;
 import com.quileiasas.appmanagcar.Views.LobbyAccess;
@@ -10,6 +16,7 @@ import com.quileiasas.appmanagcar.Views.LobbyAccess;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.regex.Matcher;
@@ -88,6 +95,7 @@ public class DataHolder
 
     public static Boolean StringToEstadocivil(String estado)
     {
+        System.out.println("debug "+estado);
 
         if (estado.equals("Casado"))
         {
@@ -100,6 +108,46 @@ public class DataHolder
 
     }
 
+    public void updateLabel(Activity activity, EditText editText, Calendar myCalendar) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+        editText.setText(sdf.format(myCalendar.getTime()));
+    }
+
+    public void getCars()
+    {
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Choose an animal");
+
+        // add a radio button list
+        vehiculoDAO Daovehiculo= new vehiculoDAO(activity);
+        String[] animals = new String[Daovehiculo.getall().size()] ;
+        int i=0;
+        for (vehiculo auto : Daovehiculo.getall())
+            animals(i)=auto.
+        int checkedItem = 1; // cow
+        builder.setSingleChoiceItems(animals, checkedItem, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user checked an item
+            }
+        });
+
+        // add OK and Cancel buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // user clicked OK
+            }
+        });
+        builder.setNegativeButton("Cancel", null);
+
+        // create and show the alert dialog
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+    }
     //utils to move
     public static void gotoListVehiculos()
     {

@@ -24,8 +24,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="nombres"
-         />
+        android:hint="nombres" />
 
     <EditText
         android:id="@+id/eapellidos"
@@ -33,8 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="apellidos"
-         />
+        android:hint="apellidos" />
 
     <EditText
         android:id="@+id/etfechaNacimiento"
@@ -43,8 +41,7 @@
         android:layout_marginTop="7dp"
         android:ems="7"
         android:hint="fechaNacimiento"
-        android:inputType="date"
-        />
+        android:inputType="date" />
 
     <EditText
         android:id="@+id/etidentificacion"
@@ -53,7 +50,7 @@
         android:layout_marginTop="10dp"
         android:ems="7"
         android:hint="identificacion"
-        android:inputType="numberDecimal"/>
+        android:inputType="numberDecimal" />
 
     <EditText
         android:id="@+id/etprofesionOficio"
@@ -63,13 +60,31 @@
         android:ems="7"
         android:hint="profesionOficio" />
 
-    <EditText
-        android:id="@+id/etestadoCivil"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:ems="7"
-        android:hint="Casado?" />
+        android:layout_height="80dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/etestadoCivil"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            android:ems="7"
+            android:hint="Casado?" />
+
+        <Switch
+            android:id="@+id/switch1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Switch"
+            android:textOff="no Casado"
+            android:textOn="casado" />
+
+    </LinearLayout>
 
     <EditText
         android:id="@+id/etIngresoMensual"
@@ -78,7 +93,7 @@
         android:layout_marginTop="10dp"
         android:ems="7"
         android:hint="IngresoMensual"
-        android:inputType="number"/>
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/etvehiculoActual"

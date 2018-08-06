@@ -1,12 +1,15 @@
 package com.quileiasas.appmanagcar.Controller;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.quileiasas.appmanagcar.DB.personaDAO;
 import com.quileiasas.appmanagcar.Model.listPersona_adapter;
@@ -14,6 +17,7 @@ import com.quileiasas.appmanagcar.Model.persona;
 import com.quileiasas.appmanagcar.R;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class listenersPersona
 {
@@ -26,7 +30,7 @@ public class listenersPersona
     }
 
 
-    public void agreagarPersona(Activity activity,  final listPersona_adapter obj)
+    public void agreagarPersona(final Activity activity, final listPersona_adapter obj)
     {
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
@@ -39,12 +43,56 @@ public class listenersPersona
         //get elements
         final EditText valnombres=(EditText)mView.getChildAt(1);
         final EditText valapellidos=(EditText)mView.getChildAt(2);
+        //fecha
         final EditText valfechaNacimiento=(EditText)mView.getChildAt(3);
+        valfechaNacimiento.setFocusable(false);
+        final Calendar myCalendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                DataHolder.getInstance().setActivity(activity);
+                DataHolder.getInstance().updateLabel(activity,valfechaNacimiento,myCalendar);
+            }
+
+        };
+
+        valfechaNacimiento.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(activity, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
+
+
         final EditText validentificacion=(EditText)mView.getChildAt(4);
         final EditText valprofesionOficio=(EditText)mView.getChildAt(5);
-        final EditText valestadoCivil=(EditText)mView.getChildAt(6);
+
+        LinearLayout mView2=(LinearLayout)mView.getChildAt(6);
+        final Switch valestadoCivil=(Switch)mView2.getChildAt(1);
+
         final EditText valIngresoMensual=(EditText)mView.getChildAt(7);
-        final EditText valpersonaActual=(EditText)mView.getChildAt(8);
+        final EditText valVehiculoActual=(EditText)mView.getChildAt(8);
+        valVehiculoActual.setFocusable(false);
+        valVehiculoActual.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                DataHolder.getInstance().setActivity(activity);
+                DataHolder.getInstance().getCars();
+            }
+        });
 
 
 
@@ -66,7 +114,7 @@ public class listenersPersona
                                                 valprofesionOficio.getText().toString(),
                                                 DataHolder.getInstance().StringToEstadocivil(valestadoCivil.getText().toString()),
                                                 Double.parseDouble(valIngresoMensual.getText().toString()),
-                                                personaDAO.localizaPorIdVehiculo(Integer.parseInt(valpersonaActual.getText().toString())))
+                                                personaDAO.localizaPorIdVehiculo(Integer.parseInt(valVehiculoActual.getText().toString())))
                                 );
                 dialog.cancel();
             }
