@@ -13,8 +13,8 @@ public class vehiculoDAO
 {
 
         Context context;
-        ManagerSQLite dbsqLite;
-        public static ArrayList<vehiculo> listaVehiculos;
+        private static ManagerSQLite dbsqLite;
+        private static ArrayList<vehiculo> listaVehiculos;
 
         public vehiculoDAO(Context context)
         {
@@ -80,7 +80,7 @@ public class vehiculoDAO
             return ret > 0;
         }
 
-        public void listar()
+        public static void listar()
         {
             SQLiteDatabase db = dbsqLite.getReadableDatabase();
             listaVehiculos = new ArrayList<>();
@@ -107,6 +107,11 @@ public class vehiculoDAO
             }
         }
 
+        public static ArrayList<vehiculo> getall()
+        {
+            listar();
+            return listaVehiculos;
+        }
         public vehiculo localizaPorId(int id)
         {
             for (vehiculo auto : listaVehiculos)

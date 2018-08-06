@@ -30,11 +30,18 @@ public class vehiculo
         this.tipoVehiculo = tipoVehiculo;
     }
 
-    public vehiculo()
+    public vehiculo(String placa, String marca, String modelo, int numeroPuertas, String tipoVehiculo)
     {
-
+        this.placa = placa;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.numeroPuertas = numeroPuertas;
+        this.tipoVehiculo = tipoVehiculo;
     }
 
+    public vehiculo() {
+
+    }
 
     public int getId() {
         return id;

@@ -7,10 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.quileiasas.appmanagcar.Controller.listenersVehiculo;
 import com.quileiasas.appmanagcar.R;
 
 import java.util.ArrayList;
@@ -24,14 +26,19 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
     Activity activity;
     RecyclerView lista;
     ArrayList<vehiculo> _ArrayList;
+    listenersVehiculo handler;
+    listVehiculo_adapter adp;
 
 
-    public listVehiculo_adapter(Activity activity, RecyclerView lista, ArrayList<vehiculo>_ArrayList)
+    public listVehiculo_adapter(Activity activity, RecyclerView lista, ArrayList<vehiculo>_ArrayList, listenersVehiculo handler)
     {
         this.activity = activity;
         this.lista=lista;
         this._ArrayList=_ArrayList;
+        this.handler=handler;
+        this.adp= this;
     }
+
 
 
     @Override
@@ -44,14 +51,35 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
 
 
     @Override
-    public void onBindViewHolder(listVehiculo_adapter.Holder holder, int position)
+    public void onBindViewHolder(final listVehiculo_adapter.Holder holder, final int position)
     {
         final vehiculo vehiculo = _ArrayList.get(position);
         holder.txtvalplaca.setText(vehiculo.getPlaca());
         holder.txtvalmarca.setText(vehiculo.getMarca());
         holder.txtvalmodelo.setText(vehiculo.getModelo());
-        holder.txtvalNpuertas.setText(vehiculo.getNumeroPuertas());
+        holder.txtvalNpuertas.setText(""+vehiculo.getNumeroPuertas());
         holder.txtvalTipoVehiculo.setText(vehiculo.getTipoVehiculo());
+
+        holder.btnBorrar.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                System.out.println("borrar");
+                handler.borrarVehiculo(vehiculo, adp);
+
+
+            }
+        });
+
+        holder.btnEditar.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+
+                _ArrayList=handler.ModificarrVehiculo(vehiculo,adp);
+
+            }
+        });
 
     }
 
@@ -69,6 +97,9 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
         private TextView txtvalmodelo;
         private TextView txtvalNpuertas;
         private TextView txtvalTipoVehiculo;
+        //
+        private Button btnEditar;
+        private Button btnBorrar;
 
 
         public Holder(View itemView)
@@ -80,9 +111,14 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
             this.txtvalmodelo = (TextView) itemView.findViewById(R.id.txtvalModelo);
             this.txtvalNpuertas = (TextView) itemView.findViewById(R.id.txtvalNPuertos);
             this.txtvalTipoVehiculo = (TextView) itemView.findViewById(R.id.txtvalTipoVehiculo);
+            this.btnBorrar= (Button) itemView.findViewById(R.id.btnBorrar);
+            this.btnEditar= (Button) itemView.findViewById(R.id.btnEditar);
+
             itemView.setOnClickListener(this);
 
         }
+
+
 
 
         @Override
@@ -91,4 +127,9 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
             System.out.println("click");
         }
     }
+
+
+
+
+
 }

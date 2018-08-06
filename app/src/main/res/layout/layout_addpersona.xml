@@ -14,44 +14,79 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
-        android:text="Estudiante"
+        android:text="Agregar Persona"
         android:textSize="25sp"
         android:textStyle="bold" />
 
     <EditText
-        android:id="@+id/etNombres"
+        android:id="@+id/etnombres"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Nombres"
-        android:inputType="textEmailAddress" />
+        android:hint="nombres"
+         />
 
     <EditText
-        android:id="@+id/etApellidos"
+        android:id="@+id/eapellidos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:ems="10"
-        android:hint="Apellidos"
-        android:inputType="textEmailAddress" />
+        android:hint="apellidos"
+         />
 
     <EditText
-        android:id="@+id/etcolegio"
+        android:id="@+id/etfechaNacimiento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:ems="7"
+        android:hint="fechaNacimiento"
+        android:inputType="date"
+        />
+
+    <EditText
+        android:id="@+id/etidentificacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Colegio"
-        android:inputType="textEmailAddress" />
+        android:ems="7"
+        android:hint="identificacion"
+        android:inputType="numberDecimal"/>
 
-    <TextView
-        android:id="@+id/textView3"
+    <EditText
+        android:id="@+id/etprofesionOficio"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Grado"
-        android:textSize="18sp" />
+        android:layout_marginTop="10dp"
+        android:ems="7"
+        android:hint="profesionOficio" />
+
+    <EditText
+        android:id="@+id/etestadoCivil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="7"
+        android:hint="Casado?" />
+
+    <EditText
+        android:id="@+id/etIngresoMensual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="7"
+        android:hint="IngresoMensual"
+        android:inputType="number"/>
+
+    <EditText
+        android:id="@+id/etvehiculoActual"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:ems="7"
+        android:hint="vehiculo Actual" />
 
     <Button
         android:id="@+id/btnLogin"

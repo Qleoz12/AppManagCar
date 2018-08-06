@@ -16,6 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Views.LobbyAccess"></activity>
+        <activity android:name=".Views.ListVehiculos" />
+        <activity android:name=".Views.ListPersonas"></activity>
     </application>
 
 </manifest>
