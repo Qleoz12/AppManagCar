@@ -119,4 +119,11 @@ public class vehiculoDAO
                     return auto;
             return null;
         }
+
+        public vehiculo getlastVehiculo()
+        {
+            getall();
+            return listaVehiculos.get(listaVehiculos.size()-1);
+
+        }
     }

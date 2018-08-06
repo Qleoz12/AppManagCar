@@ -57,7 +57,8 @@ public class ListVehiculos extends AppCompatActivity {
     public void AgreagarVehiculo(View v)
     {
         handler.AgreagarVehiculo(this,adp);
-        load_data();
+
+        System.out.println("dddddd"+listvehiculos.toString());
 
     }
 
@@ -80,7 +81,6 @@ public class ListVehiculos extends AppCompatActivity {
     {
         adp = new listVehiculo_adapter(this, lista_R_vehiculos, listvehiculos, handler);
         lista_R_vehiculos.setAdapter(adp);
-
     }
 
 

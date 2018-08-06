@@ -2,12 +2,15 @@ package com.quileiasas.appmanagcar.Controller;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.quileiasas.appmanagcar.DB.vehiculoDAO;
+import com.quileiasas.appmanagcar.Model.persona;
 import com.quileiasas.appmanagcar.Model.vehiculo;
 import com.quileiasas.appmanagcar.Views.ListPersonas;
 import com.quileiasas.appmanagcar.Views.ListVehiculos;
@@ -16,9 +19,11 @@ import com.quileiasas.appmanagcar.Views.LobbyAccess;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -114,39 +119,61 @@ public class DataHolder
         editText.setText(sdf.format(myCalendar.getTime()));
     }
 
-    public void getCars()
+    public String vehiculoToString(persona persona)
     {
-        // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Choose an animal");
+        return persona.getVehiculoActual().getModelo()+" --"+persona.getVehiculoActual().getMarca()+" --"+persona.getVehiculoActual().getPlaca();
+    }
+
+    public String vehiculoToString(vehiculo vehiculo)
+    {
+        return vehiculo.getModelo()+" --"+vehiculo.getMarca()+" --"+vehiculo.getPlaca();
+    }
+
+    public int getCars(final Activity activity, final EditText valVehiculoActual)
+    {
+        final int[] res = {-1};
+        //start to retrieve data
+        BackgroundTask task= new BackgroundTask(activity);
+        task.execute();
 
         // add a radio button list
-        vehiculoDAO Daovehiculo= new vehiculoDAO(activity);
-        String[] animals = new String[Daovehiculo.getall().size()] ;
-        int i=0;
-        for (vehiculo auto : Daovehiculo.getall())
-            animals(i)=auto.
-        int checkedItem = 1; // cow
-        builder.setSingleChoiceItems(animals, checkedItem, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user checked an item
+        ArrayList<vehiculo> cars = new ArrayList<>();
+        String[] finalCars = new String[0];
+
+
+        try
+        {
+            cars=task.get();
+            finalCars = new String[cars.size()];
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        System.out.println("debug get"+cars.size());
+        for (int i=0;i<cars.size();i++)
+        {
+            finalCars[i]=cars.get(i).toString();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setTitle("Selecciona un vehiculo");
+        final String[] finalCars1 = finalCars;
+        builder.setItems(finalCars, new DialogInterface.OnClickListener()
+        {
+            public void onClick(DialogInterface dialog, int item) {
+
+                // will toast your selection
+                //showToast("Name: " + finalCars[item]);
+                Toast.makeText(activity,"Seleccionaste: "+ item, Toast.LENGTH_LONG).show();
+                valVehiculoActual.setText(finalCars1[item]);
+                res[0] =item;
+                dialog.dismiss();
+
             }
-        });
+        }).show();
 
-        // add OK and Cancel buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // user clicked OK
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-
-        // create and show the alert dialog
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
+        return res[0];
     }
     //utils to move
     public static void gotoListVehiculos()

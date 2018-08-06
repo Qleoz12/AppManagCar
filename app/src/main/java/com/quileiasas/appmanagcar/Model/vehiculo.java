@@ -90,5 +90,15 @@ public class vehiculo
     public void setTipoVehiculo(String tipoVehiculo) {
         this.tipoVehiculo = tipoVehiculo;
     }
+
+    @Override
+    public String toString() {
+        return "vehiculo {" +
+                "placa='" + placa + '\'' +
+                ", marca='" + marca + '\'' +
+                ", modelo='" + modelo + '\'' +
+                ", tipoVehiculo='" + tipoVehiculo + '\'' +
+                '}';
+    }
 }
 

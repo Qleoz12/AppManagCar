@@ -68,7 +68,7 @@
         android:layout_marginRight="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="AgreagarVehiculo"
+        android:onClick="AgreagarPersona"
         app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:srcCompat="@android:drawable/ic_input_add" />

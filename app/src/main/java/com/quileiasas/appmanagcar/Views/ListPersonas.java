@@ -49,11 +49,9 @@ public class ListPersonas extends AppCompatActivity {
 
 
 
-    public void AgreagarVehiculo(View v)
+    public void AgreagarPersona(View v)
     {
         handler.agreagarPersona(this,adp);
-        load_data();
-
     }
 
 

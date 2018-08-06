@@ -32,9 +32,9 @@ public class listenersVehiculo
     }
 
 
-    public void AgreagarVehiculo(Activity activity,  final listVehiculo_adapter obj)
+    public Boolean AgreagarVehiculo(Activity activity,  final listVehiculo_adapter obj)
     {
-
+        final Boolean[] resp = {false};
         final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         alert.setCancelable(false);
         LinearLayout mView = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.layout_addvehiculo, null);
@@ -104,7 +104,10 @@ public class listenersVehiculo
             {
                 //Do stuff here
                 Daovehiculo.insert(new vehiculo(valplaca.getText().toString(),valmarca.getText().toString(),valmodelo.getText().toString(),Integer.parseInt(valNpuertas.getText().toString()) ,valTipoVehiculo.getText().toString()));
+                obj.notifyDataSetChanged();
                 dialog.cancel();
+                resp[0] = true;
+
             }
         });
         Button btnCancelar= (Button) mView.getChildAt(mView.getChildCount()-1);
@@ -115,10 +118,12 @@ public class listenersVehiculo
                 //Do stuff here
                 System.out.println("cancelar estudiante");
                 dialog.cancel();
+                resp[0] = false;
             }
         });
 
         dialog.show();
+        return resp[0];
     }
 
     public ArrayList<vehiculo> ModificarrVehiculo(final vehiculo vehiculo, final listVehiculo_adapter obj)

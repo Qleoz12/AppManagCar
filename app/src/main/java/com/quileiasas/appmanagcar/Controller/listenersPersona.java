@@ -10,10 +10,12 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.quileiasas.appmanagcar.DB.personaDAO;
 import com.quileiasas.appmanagcar.Model.listPersona_adapter;
 import com.quileiasas.appmanagcar.Model.persona;
+import com.quileiasas.appmanagcar.Model.vehiculo;
 import com.quileiasas.appmanagcar.R;
 
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ public class listenersPersona
 {
     personaDAO personaDAO;
     Activity activity;
+    private vehiculo vehiculo;
 
     public listenersPersona(personaDAO personaDAO, Activity activity) {
         personaDAO = personaDAO;
@@ -84,13 +87,16 @@ public class listenersPersona
         final EditText valIngresoMensual=(EditText)mView.getChildAt(7);
         final EditText valVehiculoActual=(EditText)mView.getChildAt(8);
         valVehiculoActual.setFocusable(false);
-        valVehiculoActual.setOnClickListener(new View.OnClickListener() {
-
-            @Override
+        valVehiculoActual.setOnClickListener(new View.OnClickListener()
+        {@Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
+
                 DataHolder.getInstance().setActivity(activity);
-                DataHolder.getInstance().getCars();
+                valVehiculoActual.setTag(DataHolder.getInstance().getCars(activity,valVehiculoActual));
+
+
+            //
+
             }
         });
 
@@ -107,15 +113,17 @@ public class listenersPersona
             public void onClick(View v)
             {
                 //Do stuff here
+                System.out.println("debug fecha "+valfechaNacimiento.getText().toString());
                 personaDAO.insert(new persona(valnombres.getText().toString(),
                                               valapellidos.getText().toString(),
                                                 DataHolder.getInstance().StringToDate(valfechaNacimiento.getText().toString()),
                                                 validentificacion.getText().toString() ,
                                                 valprofesionOficio.getText().toString(),
-                                                DataHolder.getInstance().StringToEstadocivil(valestadoCivil.getText().toString()),
+                                                valestadoCivil.isChecked(),
                                                 Double.parseDouble(valIngresoMensual.getText().toString()),
-                                                personaDAO.localizaPorIdVehiculo(Integer.parseInt(valVehiculoActual.getText().toString())))
+                                                personaDAO.localizaPorIdVehiculo((int) valVehiculoActual.getTag()))
                                 );
+                obj.notifyDataSetChanged();
                 dialog.cancel();
             }
         });
@@ -161,7 +169,7 @@ public class listenersPersona
         valprofesionOficio.setText(persona.getProfesionOficio());
         valestadoCivil.setText(DataHolder.getInstance().EstadocivilToString(persona.isEstadoCivil()));
         valIngresoMensual.setText(""+persona.getIngresoMensual());
-        valvehiculoActual.setText(persona.getVehiculoActual().getModelo()+" --"+persona.getVehiculoActual().getMarca()+" --"+persona.getVehiculoActual().getPlaca());
+        valvehiculoActual.setText(DataHolder.getInstance().vehiculoToString(persona));
 
         //set listeners
 
