@@ -58,7 +58,7 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
         holder.txtvalFechanacimiento.setText(DataHolder.getInstance().DateToString(persona.getFechaNacimiento()));
         holder.txtvalIdentificacion.setText(""+persona.getIdentificacion());
         holder.txtvalProfesionuoficio.setText(persona.getProfesionOficio());
-        holder.txtvalEstadocivil.setText(DataHolder.getInstance().EstadocivilToString(persona.isEstadoCivil()));
+        holder.txtvalEstadocivil.setText(persona.getEstadoCivil()> 0 ? "Casado" : "No Casado");
         holder.txtvalIngresosMensuales.setText(""+persona.getIngresoMensual());
         holder.txtvalVehículoActual.setText(persona.getVehiculoActual().getModelo()+" --"+persona.getVehiculoActual().getMarca()+" --"+persona.getVehiculoActual().getPlaca());
 
@@ -80,6 +80,16 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
             {
 
                 _ArrayList=handler.ModificarrPersona(persona,adp);
+
+            }
+        });
+
+        holder.btnHistorial.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+
+                DataHolder.getInstance().gotoListHistorial();
 
             }
         });
@@ -106,6 +116,7 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
         //
         private Button btnEditar;
         private Button btnBorrar;
+        private Button btnHistorial;
 
 
         public Holder(View itemView)
@@ -123,6 +134,7 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
 
             this.btnBorrar= (Button) itemView.findViewById(R.id.btnBorrar);
             this.btnEditar= (Button) itemView.findViewById(R.id.btnEditar);
+            this.btnHistorial= (Button) itemView.findViewById(R.id.btnHistorial);
 
             itemView.setOnClickListener(this);
 

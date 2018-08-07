@@ -61,7 +61,7 @@ class BackgroundTask extends AsyncTask <Void, Void, ArrayList<vehiculo>>
     protected ArrayList<vehiculo> doInBackground(Void... params)
     {
         final vehiculoDAO Daovehiculo= new vehiculoDAO(activity);
-        return   Daovehiculo.getall();
+        return   Daovehiculo.getallEnable();
     }
 
 }

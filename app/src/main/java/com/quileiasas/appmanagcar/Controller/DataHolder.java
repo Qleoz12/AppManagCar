@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.quileiasas.appmanagcar.DB.vehiculoDAO;
 import com.quileiasas.appmanagcar.Model.persona;
 import com.quileiasas.appmanagcar.Model.vehiculo;
+import com.quileiasas.appmanagcar.Views.ListHistorial;
 import com.quileiasas.appmanagcar.Views.ListPersonas;
 import com.quileiasas.appmanagcar.Views.ListVehiculos;
 import com.quileiasas.appmanagcar.Views.LobbyAccess;
@@ -84,6 +85,8 @@ public class DataHolder
         }
         return  date;
     }
+
+
     public static String EstadocivilToString(Boolean estado)
     {
         String res;
@@ -114,7 +117,7 @@ public class DataHolder
     }
 
     public void updateLabel(Activity activity, EditText editText, Calendar myCalendar) {
-        String myFormat = "MM/dd/yy"; //In which you need put here
+        String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         editText.setText(sdf.format(myCalendar.getTime()));
     }
@@ -129,51 +132,30 @@ public class DataHolder
         return vehiculo.getModelo()+" --"+vehiculo.getMarca()+" --"+vehiculo.getPlaca();
     }
 
-    public int getCars(final Activity activity, final EditText valVehiculoActual)
+    public ArrayList<vehiculo> getCars(final Activity activity)
     {
-        final int[] res = {-1};
         //start to retrieve data
         BackgroundTask task= new BackgroundTask(activity);
         task.execute();
 
         // add a radio button list
         ArrayList<vehiculo> cars = new ArrayList<>();
-        String[] finalCars = new String[0];
+
 
 
         try
         {
             cars=task.get();
-            finalCars = new String[cars.size()];
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-        System.out.println("debug get"+cars.size());
-        for (int i=0;i<cars.size();i++)
-        {
-            finalCars[i]=cars.get(i).toString();
-        }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle("Selecciona un vehiculo");
-        final String[] finalCars1 = finalCars;
-        builder.setItems(finalCars, new DialogInterface.OnClickListener()
-        {
-            public void onClick(DialogInterface dialog, int item) {
+        return cars;
 
-                // will toast your selection
-                //showToast("Name: " + finalCars[item]);
-                Toast.makeText(activity,"Seleccionaste: "+ item, Toast.LENGTH_LONG).show();
-                valVehiculoActual.setText(finalCars1[item]);
-                res[0] =item;
-                dialog.dismiss();
 
-            }
-        }).show();
-
-        return res[0];
     }
     //utils to move
     public static void gotoListVehiculos()
@@ -191,6 +173,11 @@ public class DataHolder
     public static void gotoLobby()
     {
         Intent intent = new Intent(activity, LobbyAccess.class);
+        activity.startActivity(intent);
+    }
+    public void gotoListHistorial()
+    {
+        Intent intent = new Intent(activity, ListHistorial.class);
         activity.startActivity(intent);
     }
 
@@ -213,4 +200,6 @@ public class DataHolder
         Matcher matcher = pattern.matcher(n);
         return matcher.matches() && (n.length()>0) ;
     }
+
+
 }

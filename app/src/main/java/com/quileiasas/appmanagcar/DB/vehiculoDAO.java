@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.quileiasas.appmanagcar.Controller.DataHolder;
+import com.quileiasas.appmanagcar.Model.persona;
 import com.quileiasas.appmanagcar.Model.vehiculo;
 import java.util.ArrayList;
 
@@ -107,11 +108,45 @@ public class vehiculoDAO
             }
         }
 
+        public static void listardisponibles()
+        {
+            SQLiteDatabase db = dbsqLite.getReadableDatabase();
+            listaVehiculos = new ArrayList<>();
+
+            String selectQuery = "SELECT  * " +" FROM " + vehiculo.TABLA +" where id not in (select "+ persona.CAMPO_VehiculoActual+" from "+persona.TABLA+" ) ";
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            vehiculo vehiculo;
+
+            if (cursor.moveToFirst())
+            {
+                do
+                {
+                    vehiculo = new vehiculo();
+                    vehiculo.setId(cursor.getInt(0));
+                    vehiculo.setPlaca(cursor.getString(1));
+                    vehiculo.setMarca(cursor.getString(2));
+                    vehiculo.setModelo(cursor.getString(3));
+                    vehiculo.setNumeroPuertas(cursor.getInt(4));
+                    vehiculo.setTipoVehiculo(cursor.getString(5));
+                    listaVehiculos.add(vehiculo);
+                } while (cursor.moveToNext());
+                db.close();
+            }
+        }
+
         public static ArrayList<vehiculo> getall()
         {
             listar();
             return listaVehiculos;
         }
+
+        public static ArrayList<vehiculo> getallEnable()
+        {
+            listardisponibles();
+            return listaVehiculos;
+        }
+
         public vehiculo localizaPorId(int id)
         {
             for (vehiculo auto : listaVehiculos)
@@ -126,4 +161,6 @@ public class vehiculoDAO
             return listaVehiculos.get(listaVehiculos.size()-1);
 
         }
-    }
+
+
+}

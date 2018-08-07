@@ -36,7 +36,7 @@ public class personaDAO
             values.put(persona.CAMPO_FechaNacimiento, DataHolder.getInstance().DateToString(persona.getFechaNacimiento()));
             values.put(persona.CAMPO_Identificacion, persona.getIdentificacion());
             values.put(persona.CAMPO_ProfesionOficio, persona.getProfesionOficio());
-            values.put(persona.CAMPO_EstadoCivil, persona.isEstadoCivil());
+            values.put(persona.CAMPO_EstadoCivil, persona.getEstadoCivil());
             values.put(persona.CAMPO_IngresoMensual, persona.getIngresoMensual());
             values.put(persona.CAMPO_VehiculoActual, persona.getVehiculoActual().getId());
 
@@ -60,7 +60,7 @@ public class personaDAO
             values.put(persona.CAMPO_FechaNacimiento, DataHolder.getInstance().DateToString(persona.getFechaNacimiento()));
             values.put(persona.CAMPO_Identificacion, persona.getIdentificacion());
             values.put(persona.CAMPO_ProfesionOficio, persona.getProfesionOficio());
-            values.put(persona.CAMPO_EstadoCivil, persona.isEstadoCivil());
+            values.put(persona.CAMPO_EstadoCivil, persona.getEstadoCivil());
             values.put(persona.CAMPO_IngresoMensual, persona.getIngresoMensual());
             values.put(persona.CAMPO_VehiculoActual, persona.getVehiculoActual().getId());
             String where = persona.CAMPO_ID + " = ?";
@@ -111,7 +111,7 @@ public class personaDAO
                     persona.setIdentificacion(cursor.getString(4));
                     persona.setProfesionOficio(cursor.getString(5));
 
-                    persona.setEstadoCivil(DataHolder.getInstance().StringToEstadocivil(cursor.getString(6)));
+                    persona.setEstadoCivil(cursor.getInt(6));
                     persona.setIngresoMensual(cursor.getDouble(7));
                     persona.setVehiculoActual(localizaPorIdVehiculo(cursor.getInt(8)));
                     listapersonas.add(persona);
@@ -143,4 +143,11 @@ public class personaDAO
                     return auto;
             return null;
         }
+
+    public persona getlastpersona()
+    {
+        getall();
+        return listapersonas.get(listapersonas.size()-1);
+
+    }
     }

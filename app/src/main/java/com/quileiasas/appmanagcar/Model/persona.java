@@ -23,12 +23,12 @@ public class persona
         private Date fechaNacimiento;
         private String identificacion;
         private String profesionOficio;
-        private boolean estadoCivil;
+        private int estadoCivil;
         private Double IngresoMensual;
         private vehiculo vehiculoActual;
 
 
-    public persona(int id, String nombres, String apellidos, Date fechaNacimiento, String identificacion, String profesionOficio, boolean estadoCivil, Double ingresoMensual, vehiculo vehiculoActual) {
+    public persona(int id, String nombres, String apellidos, Date fechaNacimiento, String identificacion, String profesionOficio, int estadoCivil, Double ingresoMensual, vehiculo vehiculoActual) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -45,7 +45,7 @@ public class persona
                    Date fechaNacimiento,
                    String identificacion,
                    String profesionOficio,
-                   boolean estadoCivil,
+                   int estadoCivil,
                    Double ingresoMensual,
                    vehiculo vehiculoActual) {
         this.nombres = nombres;
@@ -110,11 +110,11 @@ public class persona
         this.profesionOficio = profesionOficio;
     }
 
-    public boolean isEstadoCivil() {
+    public int getEstadoCivil() {
         return estadoCivil;
     }
 
-    public void setEstadoCivil(boolean estadoCivil) {
+    public void setEstadoCivil(int estadoCivil) {
         this.estadoCivil = estadoCivil;
     }
 

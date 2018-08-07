@@ -278,6 +278,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Borrar" />
+
+            <Button
+                android:id="@+id/btnHistorial"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Historial" />
         </LinearLayout>
 
 

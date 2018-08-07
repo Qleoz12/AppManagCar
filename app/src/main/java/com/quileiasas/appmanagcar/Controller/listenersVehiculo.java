@@ -27,7 +27,7 @@ public class listenersVehiculo
     Activity activity;
 
     public listenersVehiculo(vehiculoDAO daovehiculo, Activity activity) {
-        Daovehiculo = daovehiculo;
+        this.Daovehiculo = daovehiculo;
         this.activity = activity;
     }
 

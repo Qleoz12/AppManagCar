@@ -13,6 +13,8 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.quileiasas.appmanagcar.DB.personaDAO;
+import com.quileiasas.appmanagcar.DB.historialDAO;
+import com.quileiasas.appmanagcar.Model.historial;
 import com.quileiasas.appmanagcar.Model.listPersona_adapter;
 import com.quileiasas.appmanagcar.Model.persona;
 import com.quileiasas.appmanagcar.Model.vehiculo;
@@ -20,15 +22,21 @@ import com.quileiasas.appmanagcar.R;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 public class listenersPersona
 {
     personaDAO personaDAO;
+    historialDAO historialDAO;
     Activity activity;
-    private vehiculo vehiculo;
+
+    private ArrayList<vehiculo> vehiculos;
+    vehiculo vehuculoselected;
+    Date dateSelected;
+    int EstadoCivilSelected;
 
     public listenersPersona(personaDAO personaDAO, Activity activity) {
-        personaDAO = personaDAO;
+        this.personaDAO = personaDAO;
         this.activity = activity;
     }
 
@@ -41,13 +49,21 @@ public class listenersPersona
         LinearLayout mView = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.layout_addpersona, null);
         //elements
         alert.setView(mView);
-        final AlertDialog dialog = alert.create();
+        final AlertDialog dialogPadre = alert.create();
 
         //get elements
         final EditText valnombres=(EditText)mView.getChildAt(1);
         final EditText valapellidos=(EditText)mView.getChildAt(2);
-        //fecha
         final EditText valfechaNacimiento=(EditText)mView.getChildAt(3);
+        final EditText validentificacion=(EditText)mView.getChildAt(4);
+        final EditText valprofesionOficio=(EditText)mView.getChildAt(5);
+        LinearLayout mView2=(LinearLayout)mView.getChildAt(6);
+        final Switch valestadoCivil=(Switch) mView2.findViewById(R.id.switch1);
+        final EditText valIngresoMensual=(EditText)mView.getChildAt(7);
+        final EditText valVehiculoActual=(EditText)mView.getChildAt(8);
+
+
+        //listener
         valfechaNacimiento.setFocusable(false);
         final Calendar myCalendar = Calendar.getInstance();
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
@@ -62,6 +78,7 @@ public class listenersPersona
 
                 DataHolder.getInstance().setActivity(activity);
                 DataHolder.getInstance().updateLabel(activity,valfechaNacimiento,myCalendar);
+
             }
 
         };
@@ -74,28 +91,59 @@ public class listenersPersona
                 new DatePickerDialog(activity, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+
+
             }
         });
 
-
-        final EditText validentificacion=(EditText)mView.getChildAt(4);
-        final EditText valprofesionOficio=(EditText)mView.getChildAt(5);
-
-        LinearLayout mView2=(LinearLayout)mView.getChildAt(6);
-        final Switch valestadoCivil=(Switch)mView2.getChildAt(1);
-
-        final EditText valIngresoMensual=(EditText)mView.getChildAt(7);
-        final EditText valVehiculoActual=(EditText)mView.getChildAt(8);
         valVehiculoActual.setFocusable(false);
         valVehiculoActual.setOnClickListener(new View.OnClickListener()
         {@Override
             public void onClick(View v) {
 
                 DataHolder.getInstance().setActivity(activity);
-                valVehiculoActual.setTag(DataHolder.getInstance().getCars(activity,valVehiculoActual));
+                vehiculos=DataHolder.getInstance().getCars(activity);
+                String[] StringCars = new String[vehiculos.size()];
 
+                if (vehiculos.size()>0)
+                {
+                    for (int i=0;i<vehiculos.size();i++)
+                    {
+                        StringCars[i]=vehiculos.get(i).toString();
+                    }
+                }
+                else
+                {
+                    StringCars=new String[1];
+                    StringCars[0]="No hay vehiculos disponibles";
+                }
 
-            //
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle("Selecciona un vehiculo");
+                builder.setCancelable(false);
+                final String[] finalStringCars = StringCars;
+                builder.setItems(StringCars, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int item)
+                    {
+
+                        // will toast your selection
+                        if (vehiculos.size()>0)
+                        {
+                            Toast.makeText(activity,"Seleccionaste: "+ item, Toast.LENGTH_LONG).show();
+                            valVehiculoActual.setText(finalStringCars[item]);
+                            vehuculoselected= vehiculos.get(item);
+                        }
+                        else
+                        {
+                            dialogPadre.dismiss();
+                        }
+
+                        dialog.dismiss();
+
+                    }
+                }).show();
 
             }
         });
@@ -113,18 +161,21 @@ public class listenersPersona
             public void onClick(View v)
             {
                 //Do stuff here
-                System.out.println("debug fecha "+valfechaNacimiento.getText().toString());
-                personaDAO.insert(new persona(valnombres.getText().toString(),
-                                              valapellidos.getText().toString(),
+
+                personaDAO.insert(new persona(
+                                                valnombres.getText().toString(),
+                                                valapellidos.getText().toString(),
                                                 DataHolder.getInstance().StringToDate(valfechaNacimiento.getText().toString()),
                                                 validentificacion.getText().toString() ,
                                                 valprofesionOficio.getText().toString(),
-                                                valestadoCivil.isChecked(),
+                                                (valestadoCivil.isChecked())? 1 : 0,
                                                 Double.parseDouble(valIngresoMensual.getText().toString()),
-                                                personaDAO.localizaPorIdVehiculo((int) valVehiculoActual.getTag()))
-                                );
+                                                vehuculoselected));
+
+                //h
+                historialDAO.insert( new historial(personaDAO.getlastpersona().getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
                 obj.notifyDataSetChanged();
-                dialog.cancel();
+                dialogPadre.cancel();
             }
         });
         Button btnCancelar= (Button) mView.getChildAt(mView.getChildCount()-1);
@@ -134,11 +185,11 @@ public class listenersPersona
             {
                 //Do stuff here
                 System.out.println("cancelar ");
-                dialog.cancel();
+                dialogPadre.cancel();
             }
         });
 
-        dialog.show();
+        dialogPadre.show();
     }
 
     public ArrayList<persona> ModificarrPersona(final persona persona, final listPersona_adapter obj)
@@ -146,9 +197,10 @@ public class listenersPersona
         final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
         alert.setCancelable(false);
         LinearLayout mView = (LinearLayout) activity.getLayoutInflater().inflate(R.layout.layout_addpersona, null);
-        //elements
         alert.setView(mView);
-        final AlertDialog dialog = alert.create();
+        final AlertDialog dialogPadre = alert.create();
+
+
 
         //get elements
         final EditText valnombres=(EditText)mView.getChildAt(1);
@@ -156,9 +208,10 @@ public class listenersPersona
         final EditText valfechaNacimiento=(EditText)mView.getChildAt(3);
         final EditText validentificacion=(EditText)mView.getChildAt(4);
         final EditText valprofesionOficio=(EditText)mView.getChildAt(5);
-        final EditText valestadoCivil=(EditText)mView.getChildAt(6);
+        LinearLayout mView2=(LinearLayout)mView.getChildAt(6);
+        final Switch valestadoCivil=(Switch) mView2.findViewById(R.id.switch1);
         final EditText valIngresoMensual=(EditText)mView.getChildAt(7);
-        final EditText valvehiculoActual=(EditText)mView.getChildAt(8);
+        final EditText valVehiculoActual=(EditText)mView.getChildAt(8);
 
 
         //set data
@@ -167,12 +220,94 @@ public class listenersPersona
         valfechaNacimiento.setText(DataHolder.getInstance().DateToString(persona.getFechaNacimiento()));
         validentificacion.setText(""+persona.getIdentificacion());
         valprofesionOficio.setText(persona.getProfesionOficio());
-        valestadoCivil.setText(DataHolder.getInstance().EstadocivilToString(persona.isEstadoCivil()));
+        valestadoCivil.setChecked(persona.getEstadoCivil()> 0 ? true : false);
         valIngresoMensual.setText(""+persona.getIngresoMensual());
-        valvehiculoActual.setText(DataHolder.getInstance().vehiculoToString(persona));
+        valVehiculoActual.setText(persona.getVehiculoActual().toString());
+
+        vehuculoselected=persona.getVehiculoActual();
 
         //set listeners
+        //listener
+        valfechaNacimiento.setFocusable(false);
+        final Calendar myCalendar = Calendar.getInstance();
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
 
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                DataHolder.getInstance().setActivity(activity);
+                DataHolder.getInstance().updateLabel(activity,valfechaNacimiento,myCalendar);
+
+            }
+
+        };
+
+        valfechaNacimiento.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                new DatePickerDialog(activity, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+
+
+
+            }
+        });
+
+        valVehiculoActual.setFocusable(false);
+        valVehiculoActual.setOnClickListener(new View.OnClickListener()
+        {@Override
+        public void onClick(View v) {
+
+            DataHolder.getInstance().setActivity(activity);
+            vehiculos=DataHolder.getInstance().getCars(activity);
+            String[] StringCars = new String[vehiculos.size()];
+
+            if (vehiculos.size()>0)
+            {
+                for (int i=0;i<vehiculos.size();i++)
+                {
+                    StringCars[i]=vehiculos.get(i).toString();
+                }
+            }
+            else
+            {
+                StringCars=new String[1];
+                StringCars[0]="No hay vehiculos disponibles";
+            }
+            final String[] finalStringCars = StringCars;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle("Selecciona un vehiculo");
+            builder.setItems(StringCars, new DialogInterface.OnClickListener()
+            {
+                public void onClick(DialogInterface dialog, int item) {
+
+                    // will toast your selection
+                    // will toast your selection
+                    if (vehiculos.size()>0)
+                    {
+                        Toast.makeText(activity,"Seleccionaste: "+ item, Toast.LENGTH_LONG).show();
+                        valVehiculoActual.setText(finalStringCars[item]);
+                        vehuculoselected= vehiculos.get(item);
+                    }
+                    else
+                    {
+                        dialogPadre.dismiss();
+                    }
+
+                    dialog.dismiss();
+                }
+            }).show();
+
+        }});
 
         Button btnAceptar= (Button) mView.getChildAt(mView.getChildCount()-2);
         btnAceptar.setOnClickListener(new View.OnClickListener()
@@ -180,18 +315,23 @@ public class listenersPersona
             public void onClick(View v)
             {
                 //Do stuff here
-                personaDAO.update(new persona(persona.getId(),
-                                            valnombres.getText().toString(),
-                                            valapellidos.getText().toString(),
-                                            DataHolder.getInstance().StringToDate(valfechaNacimiento.getText().toString()),
-                                            validentificacion.getText().toString() ,
-                                            valprofesionOficio.getText().toString(),
-                                            DataHolder.getInstance().StringToEstadocivil(valestadoCivil.getText().toString()),
-                                            Double.parseDouble(valIngresoMensual.getText().toString()),
-                                            personaDAO.localizaPorIdVehiculo(Integer.parseInt(valvehiculoActual.getText().toString()))
-                                            ));
+
+                System.out.println("debug estado "+((valestadoCivil.isChecked())? 1 : 0));
+                personaDAO.update(new persona(
+                                persona.getId(),
+                                valnombres.getText().toString(),
+                                valapellidos.getText().toString(),
+                                DataHolder.getInstance().StringToDate(valfechaNacimiento.getText().toString()),
+                                validentificacion.getText().toString() ,
+                                valprofesionOficio.getText().toString(),
+                                (valestadoCivil.isChecked())? 1 : 0,
+                                Double.parseDouble(valIngresoMensual.getText().toString()),
+                                vehuculoselected));
+                //h
+                historialDAO.insert( new historial( persona.getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
+
                 obj.notifyDataSetChanged();
-                dialog.cancel();
+                dialogPadre.cancel();
             }
         });
         Button btnCancelar= (Button) mView.getChildAt(mView.getChildCount()-1);
@@ -201,11 +341,11 @@ public class listenersPersona
             {
                 //Do stuff here
                 System.out.println("cancelar update persona");
-                dialog.cancel();
+                dialogPadre.cancel();
             }
         });
 
-        dialog.show();
+        dialogPadre.show();
         return personaDAO.getall();
     }
 

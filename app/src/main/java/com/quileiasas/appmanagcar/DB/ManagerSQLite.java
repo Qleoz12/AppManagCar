@@ -41,7 +41,7 @@ public class ManagerSQLite extends SQLiteOpenHelper
                     + persona.CAMPO_FechaNacimiento + " TEXT, "
                     + persona.CAMPO_Identificacion + " TEXT, "
                     + persona.CAMPO_ProfesionOficio + " TEXT, "
-                    + persona.CAMPO_EstadoCivil + " TEXT, "
+                    + persona.CAMPO_EstadoCivil + " INTEGER, "
                     + persona.CAMPO_IngresoMensual + " REAL, "
                     + persona.CAMPO_VehiculoActual + " INTEGER,"
                     + " FOREIGN KEY ("+persona.CAMPO_VehiculoActual+") REFERENCES "+vehiculo.TABLA+"("+vehiculo.CAMPO_ID+"));";
