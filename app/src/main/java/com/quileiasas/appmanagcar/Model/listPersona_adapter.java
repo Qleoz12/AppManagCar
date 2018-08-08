@@ -89,6 +89,7 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
             public void onClick(View v)
             {
 
+                DataHolder.getInstance().setIDPersona(persona.getId());
                 DataHolder.getInstance().gotoListHistorial();
 
             }

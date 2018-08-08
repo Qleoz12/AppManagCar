@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.quileiasas.appmanagcar">
+    //permi
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -19,7 +21,8 @@
         <activity android:name=".Views.LobbyAccess" />
         <activity android:name=".Views.ListVehiculos" />
         <activity android:name=".Views.ListPersonas" />
-        <activity android:name=".Views.ListHistorial"></activity>
+        <activity android:name=".Views.ListHistorial" />
+        <activity android:name=".Views.customVehiculo"></activity>
     </application>
 
 </manifest>

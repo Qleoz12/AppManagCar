@@ -38,11 +38,13 @@ public class DataHolder
 
     private static Activity activity;
     private static String data_dates="";
-
+    private int IDPersona;
 
 
     //dont touch
     private static final DataHolder holder = new DataHolder();
+
+
     public static DataHolder getInstance() {return holder;}
 
     public static Activity getActivity() {
@@ -181,6 +183,12 @@ public class DataHolder
         activity.startActivity(intent);
     }
 
+    public void gotoDiseno()
+    {
+        Intent intent = new Intent(activity, ListHistorial.class);
+        activity.startActivity(intent);
+    }
+
     //utils
     //set validation
     protected boolean isValidPlaca(String placa)
@@ -201,5 +209,11 @@ public class DataHolder
         return matcher.matches() && (n.length()>0) ;
     }
 
+    public int getIDPersona() {
+        return IDPersona;
+    }
 
+    public void setIDPersona(int IDPersona) {
+        this.IDPersona = IDPersona;
+    }
 }

@@ -108,6 +108,13 @@ public class vehiculoDAO
             }
         }
 
+        public static Cursor listarData()
+        {
+            SQLiteDatabase db = dbsqLite.getReadableDatabase();
+            String selectQuery = "SELECT  * " +" FROM " + vehiculo.TABLA;
+            return db.rawQuery(selectQuery, null);
+        }
+
         public static void listardisponibles()
         {
             SQLiteDatabase db = dbsqLite.getReadableDatabase();
@@ -134,6 +141,7 @@ public class vehiculoDAO
                 db.close();
             }
         }
+
 
         public static ArrayList<vehiculo> getall()
         {

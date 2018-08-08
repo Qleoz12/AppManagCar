@@ -120,6 +120,12 @@ public class personaDAO
             }
         }
 
+        public static Cursor listarData()
+        {
+            SQLiteDatabase db = dbsqLite.getReadableDatabase();
+            String selectQuery = "SELECT  * " +" FROM " + persona.TABLA;
+            return db.rawQuery(selectQuery, null);
+        }
         public static ArrayList<persona> getall()
         {
             listar();

@@ -2,9 +2,11 @@ package com.quileiasas.appmanagcar.Views;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 
+import com.quileiasas.appmanagcar.Controller.DataHolder;
 import com.quileiasas.appmanagcar.DB.historialDAO;
 import com.quileiasas.appmanagcar.DB.historialDAO;
 import com.quileiasas.appmanagcar.Model.listHistorial_adapter;
@@ -25,6 +27,16 @@ public class ListHistorial extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_historial);
+        //db
+        historialDao = new historialDAO(this,DataHolder.getInstance().getIDPersona());
+
+        lista_R_historials = (RecyclerView) findViewById(R.id.list_R);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        lista_R_historials.setLayoutManager(llm);
+
+        load_data();
+        inic_adapter();
     }
 
     public  void load_data()

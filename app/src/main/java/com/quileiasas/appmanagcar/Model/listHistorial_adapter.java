@@ -32,6 +32,8 @@ public class listHistorial_adapter extends RecyclerView.Adapter<listHistorial_ad
         this.activity = activity;
         this.lista=lista;
         this._ArrayList=_ArrayList;
+        this.vehiculoDao=new vehiculoDAO(activity);
+        DataHolder.getInstance().setActivity(activity);
     }
 
 

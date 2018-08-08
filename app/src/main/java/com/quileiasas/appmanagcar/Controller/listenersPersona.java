@@ -173,6 +173,7 @@ public class listenersPersona
                                                 vehuculoselected));
 
                 //h
+                historialDAO = new historialDAO(activity,personaDAO.getlastpersona().getId());
                 historialDAO.insert( new historial(personaDAO.getlastpersona().getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
                 obj.notifyDataSetChanged();
                 dialogPadre.cancel();
@@ -328,6 +329,7 @@ public class listenersPersona
                                 Double.parseDouble(valIngresoMensual.getText().toString()),
                                 vehuculoselected));
                 //h
+                historialDAO = new historialDAO(activity,persona.getId());
                 historialDAO.insert( new historial( persona.getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
 
                 obj.notifyDataSetChanged();

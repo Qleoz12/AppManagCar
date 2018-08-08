@@ -18,12 +18,14 @@ public class historialDAO
         Context context;
         private static ManagerSQLite dbsqLite;
         private static ArrayList<historial> listahistorials;
+        private static int persona;
 
-        public historialDAO(Context context)
+        public historialDAO(Context context, int id)
         {
             this.context = context;
             dbsqLite = new ManagerSQLite(context);
-            listar();
+            this.persona=id;
+            listar(this.persona);
         }
 
         public boolean insert(historial historial)
@@ -79,12 +81,12 @@ public class historialDAO
             return ret > 0;
         }
 
-        public static void listar()
+        public static void listar(int id)
         {
             SQLiteDatabase db = dbsqLite.getReadableDatabase();
             listahistorials = new ArrayList<>();
 
-            String selectQuery = "SELECT  * " +" FROM " + historial.TABLA;
+            String selectQuery = "SELECT  * " +" FROM " + historial.TABLA +" WHERE "+historial.CAMPO_id_persona+"="+id;
 
             Cursor cursor = db.rawQuery(selectQuery, null);
             historial historial;
@@ -106,10 +108,15 @@ public class historialDAO
         }
 
 
-
+        public static Cursor listarData()
+        {
+            SQLiteDatabase db = dbsqLite.getReadableDatabase();
+            String selectQuery = "SELECT  * " +" FROM " + historial.TABLA;
+            return db.rawQuery(selectQuery, null);
+        }
         public static ArrayList<historial> getall()
         {
-            listar();
+            listar(persona);
             return listahistorials;
         }
 
@@ -123,10 +130,5 @@ public class historialDAO
             return null;
         }
 
-        public historial getlasthistorial()
-        {
-            getall();
-            return listahistorials.get(listahistorials.size()-1);
 
-        }
     }
