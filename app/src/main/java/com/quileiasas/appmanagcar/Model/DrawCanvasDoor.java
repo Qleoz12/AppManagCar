@@ -34,25 +34,23 @@ public class DrawCanvasDoor extends View {
     }
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        //canvas.drawColor(Color.LTGRAY);
-        this.canvas=canvas;
 
+        this.canvas=canvas;
+        int padding=50;
         paint = new Paint();
         Path path = new Path();
 
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.parseColor(this.color));
+        paint.setColor(Color.parseColor( "Green"));
 
+        canvas.drawRect(canvas.getWidth()/3,canvas.getHeight()/3,canvas.getWidth()/3+150,canvas.getHeight()/3+150, paint);
+        paint.setColor(Color.parseColor( "White"));
 
-        canvas.drawRect(0,0,200,200, paint);
+        path.moveTo(canvas.getWidth()/3,canvas.getHeight()/3); // top
+        path.lineTo(canvas.getWidth()/3+padding, canvas.getHeight()/3); //
+        path.lineTo(canvas.getWidth()/3, canvas.getHeight()/3+padding); //
 
-        path.moveTo(20, 0);
-        path.lineTo(50, 0); // Bottom left
-        path.lineTo(50, 50); // Bottom left
-
-        canvas.save();
-        canvas.clipRect(0,0,40,30);
-        canvas.restore();
+        canvas.drawPath(path,paint);
 
     }
 

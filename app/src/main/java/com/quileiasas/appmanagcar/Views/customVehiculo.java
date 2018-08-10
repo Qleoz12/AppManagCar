@@ -71,8 +71,8 @@ public class customVehiculo extends AppCompatActivity {
         //There are multiple variations of this, but this is the basic variant.
         ArrayAdapter<String> adaptercapo = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
         //set the spinners adapter to the previously created one.
-        spinnerDoor.setAdapter(adaptercapo);
-        spinnerDoor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        spinnercapobaul.setAdapter(adaptercapo);
+        spinnercapobaul.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
