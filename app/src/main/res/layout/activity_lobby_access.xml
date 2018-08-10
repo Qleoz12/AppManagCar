@@ -37,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline5"
-        app:srcCompat="@drawable/random_dudes" />
+        app:srcCompat="@drawable/logo" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -48,13 +48,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:onClick="movePersonas"
+        android:onClick="movediseno"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toTopOf="@+id/guideline6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline6"
-        app:srcCompat="@drawable/surveytime_dribbble" />
+        app:srcCompat="@drawable/logo" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -101,7 +101,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:onClick="movePersonas"
+        android:onClick="movediseno"
         android:text="Diseño Vehiculo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

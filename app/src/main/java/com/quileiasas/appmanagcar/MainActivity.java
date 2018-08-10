@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // set second paramer to time in miliseconds 10 s
-        Soblj= new SyncTask(this,10000);
+        //Soblj= new SyncTask(this,10000);
 
     }
 

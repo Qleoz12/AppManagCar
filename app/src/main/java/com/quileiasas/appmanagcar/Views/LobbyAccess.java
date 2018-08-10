@@ -27,4 +27,10 @@ public class LobbyAccess extends AppCompatActivity {
         DataHolder.getInstance().setActivity(this);
         DataHolder.getInstance().gotoListPersonas();
     }
+
+    public void movediseno(View view)
+    {
+        DataHolder.getInstance().setActivity(this);
+        DataHolder.getInstance().gotoDiseno();
+    }
 }

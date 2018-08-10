@@ -16,6 +16,7 @@ import com.quileiasas.appmanagcar.Views.ListHistorial;
 import com.quileiasas.appmanagcar.Views.ListPersonas;
 import com.quileiasas.appmanagcar.Views.ListVehiculos;
 import com.quileiasas.appmanagcar.Views.LobbyAccess;
+import com.quileiasas.appmanagcar.Views.customVehiculo;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -185,7 +186,7 @@ public class DataHolder
 
     public void gotoDiseno()
     {
-        Intent intent = new Intent(activity, ListHistorial.class);
+        Intent intent = new Intent(activity, customVehiculo.class);
         activity.startActivity(intent);
     }
 
