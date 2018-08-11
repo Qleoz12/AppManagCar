@@ -39,6 +39,7 @@ public class DrawCanvasCapoBaul extends View
 
         paint = new Paint();
         Path path = new Path();
+        paint.setAntiAlias(true);
 
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.parseColor(this.color));
@@ -53,8 +54,6 @@ public class DrawCanvasCapoBaul extends View
 
         path.close();
 
-
-        canvas.drawPath(path, paint);
 
     }
 
@@ -82,18 +81,41 @@ public class DrawCanvasCapoBaul extends View
 
     public void drawCapoBaul(Canvas canvas,Path path)
     {
-        path.moveTo(20, canvas.getHeight() /2 - 30); // Top
-        path.lineTo(20, canvas.getHeight() /2 + 30); // Bottom left
-        path.lineTo(canvas.getWidth()/2-50, canvas.getHeight()-80); // Bottom right
-        path.lineTo(canvas.getWidth()/2-50, 80); // Back to Top
+        paint.setStyle(Paint.Style.FILL);
 
+        path.moveTo(50, canvas.getHeight() /2 - 30); // Top
+        path.lineTo(50, canvas.getHeight() /2 + 30); // Bottom left
+        path.lineTo(canvas.getWidth()/2-50, canvas.getHeight()-50); // Bottom right
+        path.lineTo(canvas.getWidth()/2-50, 50); // Back to Top
         canvas.drawPath(path, paint);
 
-        path.moveTo(canvas.getWidth()-20, canvas.getHeight() /2 - 30); // Top
-        path.lineTo(canvas.getWidth()-20, canvas.getHeight() /2 + 30); // Bottom left
-        path.lineTo(canvas.getWidth()/2+50, canvas.getHeight()-80); // Bottom right
-        path.lineTo(canvas.getWidth()/2+50, 80); // Back to Top
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(8);
+        path.moveTo(50, canvas.getHeight() /2 - 30); // Top
+        path.lineTo(50, canvas.getHeight() /2 + 30); // Bottom left
+        path.lineTo(canvas.getWidth()/2-50, canvas.getHeight()-50); // Bottom right
+        path.lineTo(canvas.getWidth()/2-50, 50); // Back to Top
+        path.lineTo(48, canvas.getHeight() /2 - 30); // Top
+        canvas.drawPath(path, paint);
 
+
+        paint.setStyle(Paint.Style.FILL);
+        paint.setColor(Color.parseColor(color));
+        path.moveTo(canvas.getWidth()-50, canvas.getHeight() /2 - 30); // Top
+        path.lineTo(canvas.getWidth()-50, canvas.getHeight() /2 + 30); // Bottom left
+        path.lineTo(canvas.getWidth()/2+50, canvas.getHeight()-50); // Bottom right
+        path.lineTo(canvas.getWidth()/2+50, 50); // Back to Top
+        canvas.drawPath(path, paint);
+
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.BLACK);
+        paint.setStrokeWidth(8);
+        path.moveTo(canvas.getWidth()-50, canvas.getHeight() /2 - 30); // Top
+        path.lineTo(canvas.getWidth()-50, canvas.getHeight() /2 + 30); // Bottom left
+        path.lineTo(canvas.getWidth()/2+50, canvas.getHeight()-50); // Bottom right
+        path.lineTo(canvas.getWidth()/2+50, 50); // Back to Top
+        path.lineTo(canvas.getWidth()-48, canvas.getHeight() /2 - 30); // Top
         canvas.drawPath(path, paint);
     }
 

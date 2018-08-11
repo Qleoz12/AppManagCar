@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="5dp"
     android:layout_marginRight="5dp"
-    android:gravity="fill_vertical"
     android:orientation="vertical"
     android:weightSum="3">
 
@@ -22,8 +21,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:text="Caracteristicas de color de Vehiculo"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
@@ -31,8 +29,8 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="7dp"
+        android:layout_width="359dp"
+        android:layout_height="3dp"
         android:layout_gravity="center"
         android:layout_marginEnd="20dp"
         android:layout_marginLeft="20dp"
@@ -59,13 +57,28 @@
             android:gravity="center_vertical|center"
             android:orientation="horizontal">
 
-            <view
-                android:id="@+id/viewCircle"
-                class="com.quileiasas.appmanagcar.Model.DrawCanvasCircle"
-                id="@+id/view2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Color de llantas"
+                    android:textStyle="bold" />
+
+                <view
+                    android:id="@+id/viewCircle"
+                    class="com.quileiasas.appmanagcar.Model.DrawCanvasCircle"
+                    id="@+id/view2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
 
             <Spinner
                 android:id="@+id/spinnerllanta"
@@ -75,6 +88,7 @@
 
         </LinearLayout>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -91,13 +105,29 @@
             android:gravity="center_vertical|center"
             android:orientation="horizontal">
 
-            <view
-                android:id="@+id/viewcapobaul"
-                class="com.quileiasas.appmanagcar.Model.DrawCanvasCapoBaul"
-                id="@+id/view3"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewCapo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Color de Capo y Bahul"
+                    android:textStyle="bold" />
+
+                <view
+                    android:id="@+id/viewcapobaul"
+                    class="com.quileiasas.appmanagcar.Model.DrawCanvasCapoBaul"
+                    id="@+id/view3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
 
             <Spinner
                 android:id="@+id/spinnercapobaul"
@@ -124,13 +154,29 @@
             android:gravity="center_vertical|center"
             android:orientation="horizontal">
 
-            <view
-                android:id="@+id/viewpuerta"
-                class="com.quileiasas.appmanagcar.Model.DrawCanvasDoor"
-                id="@+id/view4"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textPuerta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Color de Puerta"
+                    android:textStyle="bold" />
+
+                <view
+                    android:id="@+id/viewpuerta"
+                    class="com.quileiasas.appmanagcar.Model.DrawCanvasDoor"
+                    id="@+id/view4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
 
             <Spinner
                 android:id="@+id/spinnerpuerta"

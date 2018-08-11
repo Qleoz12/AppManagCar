@@ -13,7 +13,6 @@ public class DrawCanvasDoor extends View {
 
     Paint paint;
     String color="Green";
-    Canvas canvas;
     public DrawCanvasDoor(Context mContext)
     {
         super(mContext);
@@ -35,20 +34,34 @@ public class DrawCanvasDoor extends View {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        this.canvas=canvas;
-        int padding=50;
+        int padding=30;
+        int porportion=3;
+        int porportionb=2;
+
+
         paint = new Paint();
         Path path = new Path();
 
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.parseColor( "Green"));
+        paint.setColor(Color.parseColor( color));
 
-        canvas.drawRect(canvas.getWidth()/3,canvas.getHeight()/3,canvas.getWidth()/3+150,canvas.getHeight()/3+150, paint);
-        paint.setColor(Color.parseColor( "White"));
+        path.moveTo((canvas.getWidth()/porportion)+padding,canvas.getHeight()/porportion); // topL
+        path.lineTo(canvas.getWidth()*porportionb/porportion+padding , canvas.getHeight()/porportion); //TopR
+        path.lineTo(canvas.getWidth()*porportionb/porportion+padding , canvas.getHeight()*porportionb/porportion+padding ); //buttomR
+        path.lineTo(canvas.getWidth()/porportion, canvas.getHeight()*porportionb/porportion+padding ); //buttomL
+        path.lineTo(canvas.getWidth()/porportion, canvas.getHeight()/porportion+padding); //buttomLF
+        canvas.drawPath(path,paint);
 
-        path.moveTo(canvas.getWidth()/3,canvas.getHeight()/3); // top
-        path.lineTo(canvas.getWidth()/3+padding, canvas.getHeight()/3); //
-        path.lineTo(canvas.getWidth()/3, canvas.getHeight()/3+padding); //
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(8);
+        paint.setColor(Color.parseColor( "Black"));
+        path.moveTo((canvas.getWidth()/porportion)+padding,canvas.getHeight()/porportion); // topL
+        path.lineTo(canvas.getWidth()*porportionb/porportion+padding , canvas.getHeight()/porportion); //TopR
+        path.lineTo(canvas.getWidth()*porportionb/porportion+padding , canvas.getHeight()*porportionb/porportion+padding ); //buttomR
+        path.lineTo(canvas.getWidth()/porportion, canvas.getHeight()*porportionb/porportion+padding ); //buttomL
+        path.lineTo(canvas.getWidth()/porportion, canvas.getHeight()/porportion+padding); //buttomLF
+        path.lineTo((canvas.getWidth()/porportion)+padding,canvas.getHeight()/porportion); // topL
+
 
         canvas.drawPath(path,paint);
 
@@ -76,22 +89,7 @@ public class DrawCanvasDoor extends View {
 
     }
 
-    public void drawCapoBaul(Canvas canvas,Path path)
-    {
-        path.moveTo(20, canvas.getHeight() /2 - 30); // Top
-        path.lineTo(20, canvas.getHeight() /2 + 30); // Bottom left
-        path.lineTo(canvas.getWidth()/2-50, canvas.getHeight()-80); // Bottom right
-        path.lineTo(canvas.getWidth()/2-50, 80); // Back to Top
 
-        canvas.drawPath(path, paint);
-
-        path.moveTo(canvas.getWidth()-20, canvas.getHeight() /2 - 30); // Top
-        path.lineTo(canvas.getWidth()-20, canvas.getHeight() /2 + 30); // Bottom left
-        path.lineTo(canvas.getWidth()/2+50, canvas.getHeight()-80); // Bottom right
-        path.lineTo(canvas.getWidth()/2+50, 80); // Back to Top
-
-        canvas.drawPath(path, paint);
-    }
 
 
 
