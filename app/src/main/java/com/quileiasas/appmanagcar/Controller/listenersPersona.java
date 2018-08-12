@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -31,17 +32,17 @@ public class listenersPersona
     Activity activity;
 
     private ArrayList<vehiculo> vehiculos;
+    ArrayList<persona> listpersonas;
     vehiculo vehuculoselected;
-    Date dateSelected;
-    int EstadoCivilSelected;
 
-    public listenersPersona(personaDAO personaDAO, Activity activity) {
+
+    public listenersPersona( Activity activity,personaDAO personaDAO, ArrayList<persona> personas) {
         this.personaDAO = personaDAO;
         this.activity = activity;
+        this.listpersonas = personas;
     }
 
-
-    public void agreagarPersona(final Activity activity, final listPersona_adapter obj)
+    public void agreagarPersona(final listPersona_adapter obj)
     {
 
         final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
@@ -60,6 +61,8 @@ public class listenersPersona
         LinearLayout mView2=(LinearLayout)mView.getChildAt(6);
         final Switch valestadoCivil=(Switch) mView2.findViewById(R.id.switch1);
         final EditText valIngresoMensual=(EditText)mView.getChildAt(7);
+        valIngresoMensual.setInputType(InputType.TYPE_CLASS_NUMBER |
+                InputType.TYPE_NUMBER_FLAG_DECIMAL );
         final EditText valVehiculoActual=(EditText)mView.getChildAt(8);
 
 
@@ -172,10 +175,20 @@ public class listenersPersona
                                                 Double.parseDouble(valIngresoMensual.getText().toString()),
                                                 vehuculoselected));
 
+                listpersonas.add((new persona(
+                        valnombres.getText().toString(),
+                        valapellidos.getText().toString(),
+                        DataHolder.getInstance().StringToDate(valfechaNacimiento.getText().toString()),
+                        validentificacion.getText().toString() ,
+                        valprofesionOficio.getText().toString(),
+                        (valestadoCivil.isChecked())? 1 : 0,
+                        Double.parseDouble(valIngresoMensual.getText().toString()),
+                        vehuculoselected)));
+
+                obj.notifyItemInserted(listpersonas.size()-1);
                 //h
                 historialDAO = new historialDAO(activity,personaDAO.getlastpersona().getId());
                 historialDAO.insert( new historial(personaDAO.getlastpersona().getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
-                obj.notifyDataSetChanged();
                 dialogPadre.cancel();
             }
         });
@@ -329,8 +342,11 @@ public class listenersPersona
                                 Double.parseDouble(valIngresoMensual.getText().toString()),
                                 vehuculoselected));
                 //h
-                historialDAO = new historialDAO(activity,persona.getId());
-                historialDAO.insert( new historial( persona.getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
+                if (vehuculoselected.getId()!=persona.getVehiculoActual().getId())
+                {
+                    historialDAO = new historialDAO(activity,persona.getId());
+                    historialDAO.insert( new historial( persona.getId(), vehuculoselected.getId(),Calendar.getInstance().getTime()));
+                }
 
                 obj.notifyDataSetChanged();
                 dialogPadre.cancel();
@@ -359,7 +375,9 @@ public class listenersPersona
                 .setPositiveButton("acepto", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         personaDAO.remove(persona.getId());
-                        obj.notifyDataSetChanged();
+                        int itemindex=listpersonas.indexOf(persona);
+                        listpersonas.remove(persona);
+                        obj.notifyItemRemoved(itemindex);
 
                     }
                 })

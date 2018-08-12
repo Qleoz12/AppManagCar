@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 
 import com.quileiasas.appmanagcar.Controller.listenersVehiculo;
+import com.quileiasas.appmanagcar.DB.vehiculoDAO;
 import com.quileiasas.appmanagcar.R;
 
 import java.util.ArrayList;
@@ -30,12 +31,12 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
     listVehiculo_adapter adp;
 
 
-    public listVehiculo_adapter(Activity activity, RecyclerView lista, ArrayList<vehiculo>_ArrayList, listenersVehiculo handler)
+    public listVehiculo_adapter(Activity activity, RecyclerView lista, ArrayList<vehiculo>_ArrayList)
     {
         this.activity = activity;
         this.lista=lista;
         this._ArrayList=_ArrayList;
-        this.handler=handler;
+        this.handler= new listenersVehiculo(activity,new vehiculoDAO(activity),_ArrayList);
         this.adp= this;
     }
 
@@ -83,11 +84,17 @@ public class listVehiculo_adapter extends RecyclerView.Adapter<listVehiculo_adap
 
     }
 
+    public void AgreagarVehiculo()
+    {
+        handler.AgreagarVehiculo(this);
+    }
 
     @Override
     public int getItemCount() {
         return _ArrayList.size();
     }
+
+
 
 
     public static class Holder extends RecyclerView.ViewHolder implements View.OnClickListener

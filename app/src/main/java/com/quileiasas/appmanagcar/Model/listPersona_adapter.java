@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.quileiasas.appmanagcar.Controller.DataHolder;
 import com.quileiasas.appmanagcar.Controller.listenersPersona;
 import com.quileiasas.appmanagcar.Controller.listenersVehiculo;
+import com.quileiasas.appmanagcar.DB.personaDAO;
 import com.quileiasas.appmanagcar.R;
 
 import java.util.ArrayList;
@@ -29,13 +30,14 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
     listPersona_adapter adp;
 
 
-    public listPersona_adapter(Activity activity, RecyclerView lista, ArrayList<persona>_ArrayList, listenersPersona handler)
+
+    public listPersona_adapter(Activity activity, RecyclerView lista, ArrayList<persona>_ArrayList)
     {
         this.activity = activity;
         this.lista=lista;
         this._ArrayList=_ArrayList;
-        this.handler=handler;
-        this.adp= this;
+        this.handler= new listenersPersona( activity,new personaDAO(activity), _ArrayList);
+        adp=this;
     }
 
 
@@ -68,7 +70,7 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
             public void onClick(View v)
             {
                 System.out.println("borrar");
-                handler.borrarpersona(persona, adp);
+                handler.borrarpersona(persona, listPersona_adapter.this);
 
 
             }
@@ -79,7 +81,7 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
             public void onClick(View v)
             {
 
-                _ArrayList=handler.ModificarrPersona(persona,adp);
+                _ArrayList=handler.ModificarrPersona(persona,listPersona_adapter.this);
 
             }
         });
@@ -97,6 +99,11 @@ public class listPersona_adapter extends RecyclerView.Adapter<listPersona_adapte
 
     }
 
+
+
+    public void agreagarPersona() {
+        handler.agreagarPersona(this);
+    }
 
     @Override
     public int getItemCount() {

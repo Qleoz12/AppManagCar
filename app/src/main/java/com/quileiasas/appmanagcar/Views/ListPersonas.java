@@ -34,8 +34,7 @@ public class ListPersonas extends AppCompatActivity {
 
         //db
         personaDAO= new personaDAO(this);
-        //handler
-        handler= new listenersPersona(personaDAO,this);
+
 
         lista_R_vehiculos = (RecyclerView) findViewById(R.id.list_R);
         LinearLayoutManager llm = new LinearLayoutManager(this);
@@ -51,7 +50,8 @@ public class ListPersonas extends AppCompatActivity {
 
     public void AgreagarPersona(View v)
     {
-        handler.agreagarPersona(this,adp);
+
+        adp.agreagarPersona();
     }
 
 
@@ -71,7 +71,7 @@ public class ListPersonas extends AppCompatActivity {
 
     public  void inic_adapter()
     {
-        adp = new listPersona_adapter(this, lista_R_vehiculos, listpersonas, handler);
+        adp = new listPersona_adapter(this, lista_R_vehiculos, listpersonas);
         lista_R_vehiculos.setAdapter(adp);
 
     }

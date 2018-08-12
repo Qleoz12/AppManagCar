@@ -23,16 +23,19 @@ import static com.quileiasas.appmanagcar.Controller.DataHolder.getActivity;
 
 public class listenersVehiculo
 {
-    vehiculoDAO Daovehiculo;
     Activity activity;
 
-    public listenersVehiculo(vehiculoDAO daovehiculo, Activity activity) {
-        this.Daovehiculo = daovehiculo;
+    vehiculoDAO Daovehiculo;
+    ArrayList<vehiculo> listvehiculos;
+
+
+    public listenersVehiculo(Activity activity, vehiculoDAO daovehiculo, ArrayList<vehiculo> listvehiculos) {
         this.activity = activity;
+        Daovehiculo = daovehiculo;
+        this.listvehiculos = listvehiculos;
     }
 
-
-    public Boolean AgreagarVehiculo(Activity activity,  final listVehiculo_adapter obj)
+    public Boolean AgreagarVehiculo(final listVehiculo_adapter obj)
     {
         final Boolean[] resp = {false};
         final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
@@ -104,10 +107,12 @@ public class listenersVehiculo
             {
                 //Do stuff here
                 Daovehiculo.insert(new vehiculo(valplaca.getText().toString(),valmarca.getText().toString(),valmodelo.getText().toString(),Integer.parseInt(valNpuertas.getText().toString()) ,valTipoVehiculo.getText().toString()));
-                obj.notifyDataSetChanged();
+                listvehiculos.add(new vehiculo(valplaca.getText().toString(),valmarca.getText().toString(),valmodelo.getText().toString(),Integer.parseInt(valNpuertas.getText().toString()) ,valTipoVehiculo.getText().toString()));
+                obj.notifyItemInserted(listvehiculos.size()-1);
+
+
                 dialog.cancel();
                 resp[0] = true;
-
             }
         });
         Button btnCancelar= (Button) mView.getChildAt(mView.getChildCount()-1);
@@ -226,10 +231,15 @@ public class listenersVehiculo
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setMessage("Seguro que desea borrar este vehiculo")
-                .setPositiveButton("acepto", new DialogInterface.OnClickListener() {
+                .setPositiveButton("acepto", new DialogInterface.OnClickListener()
+                {
                     public void onClick(DialogInterface dialog, int id) {
+                        int itemindex=listvehiculos.indexOf(vehiculo);
+                        listvehiculos.remove(itemindex);
+                        obj.notifyItemRemoved(itemindex);
+                        obj.notifyItemRangeChanged(itemindex, listvehiculos.size());
+
                         Daovehiculo.remove(vehiculo.getId());
-                        obj.notifyDataSetChanged();
 
                     }
                 })

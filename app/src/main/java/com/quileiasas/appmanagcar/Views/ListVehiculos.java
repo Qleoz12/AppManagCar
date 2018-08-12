@@ -39,9 +39,8 @@ public class ListVehiculos extends AppCompatActivity {
 
         //db
         Daovehiculo= new vehiculoDAO(this);
-        //handler
-        handler= new listenersVehiculo(Daovehiculo,this);
 
+        //ac
         lista_R_vehiculos = (RecyclerView) findViewById(R.id.list_R);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
@@ -50,15 +49,20 @@ public class ListVehiculos extends AppCompatActivity {
         load_data();
         inic_adapter();
 
+
+
+
+
     }
 
 
 
     public void AgreagarVehiculo(View v)
     {
-        handler.AgreagarVehiculo(this,adp);
+        adp.AgreagarVehiculo();
 
         System.out.println("dddddd"+listvehiculos.toString());
+
 
     }
 
@@ -79,7 +83,7 @@ public class ListVehiculos extends AppCompatActivity {
 
     public  void inic_adapter()
     {
-        adp = new listVehiculo_adapter(this, lista_R_vehiculos, listvehiculos, handler);
+        adp = new listVehiculo_adapter(this, lista_R_vehiculos, listvehiculos);
         lista_R_vehiculos.setAdapter(adp);
     }
 
